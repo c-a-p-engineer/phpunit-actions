@@ -1,0 +1,34 @@
+name: PHPUnit
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+
+    # PHP のバージョン固定のため指定
+    # https://github.com/shivammathur/setup-php
+    runs-on: ubuntu-20.04
+
+    # ubuntu-20.04 では使用できる PHP 7.4, 8.0
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0']
+
+    steps:
+    - name: Setup PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run PHPUnit
+      run: php ./vendor/bin/phpunit tests/
