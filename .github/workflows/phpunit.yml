@@ -6,11 +6,8 @@ jobs:
   test:
     name: Test
 
-    # PHP のバージョン固定のため指定
-    # https://github.com/shivammathur/setup-php
     runs-on: ubuntu-latest
 
-    # ubuntu-20.04 では使用できる PHP 7.4, 8.0
     strategy:
       matrix:
         php-version: ['7.4', '8.0']
